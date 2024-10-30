@@ -55,20 +55,21 @@ class _TimerDisplayState extends State<TimerDisplay>
         play();
       }
     });
+    activeTimer = PausableTimer(Duration(seconds: widget.limit), () => {});
   }
 
   void initTimer() {
-    activeTimer?.cancel();
-    activeTimer = PausableTimer(const Duration(seconds: 10), () => {});
-    controller.reset();
+    if(activeTimer?.isActive ?? false) {
+      return;
+    }
+    //ver como hacer para que no arranque de cero al sacar la pausa
+    activeTimer?.start();
     controller.forward();
   }
 
   void pauseTimer() {
-    setState(() {
-      activeTimer?.pause();
-      controller.stop();
-    });
+    activeTimer?.pause();
+    controller.stop();
   }
 
   @override
