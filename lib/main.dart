@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-import 'package:pausable_timer/pausable_timer.dart';
 
 void main() {
   runApp(const MainApp());
@@ -40,7 +37,6 @@ class _TimerDisplayState extends State<TimerDisplay>
     with TickerProviderStateMixin {
   late AnimationController controller;
   final player = AudioPlayer();
-  PausableTimer? activeTimer;
 
   @override
   void initState() {
@@ -51,24 +47,19 @@ class _TimerDisplayState extends State<TimerDisplay>
     );
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        activeTimer?.cancel();
         play();
       }
     });
-    activeTimer = PausableTimer(Duration(seconds: widget.limit), () => {});
   }
 
   void initTimer() {
-    if(activeTimer?.isActive ?? false) {
-      return;
+    if(controller.isAnimating || controller.isCompleted) {
+      controller.reset();
     }
-    //ver como hacer para que no arranque de cero al sacar la pausa
-    activeTimer?.start();
     controller.forward();
   }
 
   void pauseTimer() {
-    activeTimer?.pause();
     controller.stop();
   }
 
@@ -104,7 +95,7 @@ class _TimerDisplayState extends State<TimerDisplay>
                 AnimatedBuilder(
                   animation: controller,
                   builder: (_, __) => Text(
-                    (controller.lastElapsedDuration ?? controller.duration)
+                    (Duration(seconds: (controller.value * widget.limit).toInt()))
                         .toString()
                         .substring(2, 7),
                     style: const TextStyle(
@@ -137,10 +128,6 @@ class _TimerDisplayState extends State<TimerDisplay>
         ),
       ],
     );
-  }
-
-  void _tick(Timer timer) {
-    // Tick
   }
 
   void play() async {
