@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
@@ -20,7 +18,7 @@ class _MainAppState extends State<MainApp> {
     return const MaterialApp(
       home: Scaffold(
         body: Center(
-          child: TimerDisplay(limit: 2),
+          child: TimerDisplay(limit: 10),
         ),
       ),
     );
@@ -37,7 +35,6 @@ class TimerDisplay extends StatefulWidget {
 
 class _TimerDisplayState extends State<TimerDisplay>
     with TickerProviderStateMixin {
-  Timer? activeTimer;
   late AnimationController controller;
   final player = AudioPlayer();
 
@@ -50,19 +47,20 @@ class _TimerDisplayState extends State<TimerDisplay>
     );
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
-        activeTimer?.cancel();
         play();
       }
     });
   }
 
   void initTimer() {
-    setState(() {
-      activeTimer?.cancel();
-      activeTimer = Timer.periodic(const Duration(seconds: 1), _tick);
+    if(controller.isAnimating || controller.isCompleted) {
       controller.reset();
-      controller.forward();
-    });
+    }
+    controller.forward();
+  }
+
+  void pauseTimer() {
+    controller.stop();
   }
 
   @override
@@ -86,38 +84,50 @@ class _TimerDisplayState extends State<TimerDisplay>
         ),
         Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              AnimatedBuilder(
-                animation: controller,
-                builder: (_, __) => Text(
-                  (controller.lastElapsedDuration ?? controller.duration)
-                      .toString()
-                      .substring(2, 7),
-                  style: const TextStyle(
-                    fontSize: 40,
-                    fontFamily: 'Cousine',
-                    letterSpacing: -2,
+          child: Container(
+            width: 150,
+            height: 150,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                AnimatedBuilder(
+                  animation: controller,
+                  builder: (_, __) => Text(
+                    (Duration(seconds: (controller.value * widget.limit).toInt()))
+                        .toString()
+                        .substring(2, 7),
+                    style: const TextStyle(
+                      fontSize: 40,
+                      fontFamily: 'Cousine',
+                      letterSpacing: -2,
+                    ),
                   ),
                 ),
-              ),
-              IconButton(
-                onPressed: () {
-                  initTimer();
-                },
-                icon: const Icon(Icons.play_arrow),
-              ),
-            ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        initTimer();
+                      },
+                      icon: const Icon(Icons.play_arrow),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        pauseTimer();
+                      },
+                      icon: const Icon(Icons.pause),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
-  }
-
-  void _tick(Timer timer) {
-    // Tick
   }
 
   void play() async {
