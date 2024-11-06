@@ -26,14 +26,28 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: ListView(
-          children: [
-            for (var timer in timers)
-              Container(
-                alignment: Alignment.topCenter,
-                child: TimerDisplay(limit: timer['limit']),
-              )
-          ],
+        body: SafeArea(
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  print("Agrego un timer nuevo");
+                },
+                style: ElevatedButton.styleFrom(shape: const StadiumBorder(), backgroundColor: Colors.red),
+                child: const Icon(Icons.add, color: Colors.white,),
+              ),
+              ListView(
+                shrinkWrap: true,
+                children: [
+                  for (var timer in timers)
+                    Container(
+                      alignment: Alignment.topCenter,
+                      child: TimerDisplay(limit: timer['limit']),
+                    )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
