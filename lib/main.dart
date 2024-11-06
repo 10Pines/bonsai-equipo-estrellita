@@ -13,12 +13,27 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  Map unTimer = { 'limit': 10 };
+  List<Map> timers = [];
+
+  @override
+  void initState() {
+    super.initState();
+    timers.add(unTimer);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: TimerDisplay(limit: 10),
+        body: ListView(
+          children: [
+            for (var timer in timers)
+              Container(
+                alignment: Alignment.topCenter,
+                child: TimerDisplay(limit: timer['limit']),
+              )
+          ],
         ),
       ),
     );
