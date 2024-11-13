@@ -32,7 +32,10 @@ class _TimerDisplayState extends State<TimerDisplay>
     if(controller.isAnimating || controller.isCompleted) {
       controller.reset();
     }
-    controller.forward();
+    controller.reverse(
+        from: controller.value == 0.0
+            ? 1.0
+            : controller.value);
   }
 
   void pauseTimer() {
@@ -44,6 +47,13 @@ class _TimerDisplayState extends State<TimerDisplay>
     super.dispose();
     player.dispose();
     controller.dispose();
+  }
+
+  String timerText() {
+    double duration =  controller.value == 0.0 ? widget.limit - controller.value : widget.limit * controller.value;
+    return (Duration(seconds: duration.toInt()))
+        .toString()
+        .substring(2, 7);
   }
 
   @override
@@ -71,9 +81,7 @@ class _TimerDisplayState extends State<TimerDisplay>
                 AnimatedBuilder(
                   animation: controller,
                   builder: (_, __) => Text(
-                    (Duration(seconds: (controller.value * widget.limit).toInt()))
-                        .toString()
-                        .substring(2, 7),
+                    timerText(),
                     style: const TextStyle(
                       fontSize: 40,
                       fontFamily: 'Cousine',
