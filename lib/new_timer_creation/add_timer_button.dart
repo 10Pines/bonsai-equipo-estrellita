@@ -16,7 +16,7 @@ class AddTimerButton extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return Container(
-              height: 250,
+              height: 400,
               color: Colors.amber,
               child: Center(
                 child: NewTimerForm(addTimer: addTimer,),

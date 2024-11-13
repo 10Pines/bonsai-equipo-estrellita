@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:timers/new_timer_creation/timer_limit_picker.dart';
 
-import 'domain/timer.dart';
+import '../domain/timer.dart';
 
 class NewTimerForm extends StatefulWidget {
   final Function addTimer;
@@ -15,6 +17,9 @@ class NewTimerForm extends StatefulWidget {
 
 class NewTimerFormState extends State<NewTimerForm> {
   final _formKey = GlobalKey<FormState>();
+  String timerName = "";
+  int limit = 0;
+  bool showLimitWarning = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,23 @@ class NewTimerFormState extends State<NewTimerForm> {
                   }
                   return null;
                 },
+                onChanged: (text) {
+                  setState(() {
+                    timerName = text;
+                  });
+                },
               ),
+            ),
+            const Text('Selecciona el límite de tu timer:'),
+            if(showLimitWarning)
+              const Text('Elegir un límite distinto de 0'),
+            TimerLimitPicker(
+              setLimit: (selectedLimit) {
+                setState(() {
+                  limit = selectedLimit;
+                  showLimitWarning = selectedLimit == 0;
+                });
+              },
             ),
             ElevatedButton(
               onPressed: () {
@@ -46,9 +67,15 @@ class NewTimerFormState extends State<NewTimerForm> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Nuevo timer agregado')),
                   );
-                  const Timer timer = Timer(20, 'Timer nuevo');
-                  widget.addTimer(timer);
-                  Navigator.pop(context);
+                  if( limit == 0) {
+                    setState(() {
+                      showLimitWarning = true;
+                    });
+                  } else {
+                    Timer timer = Timer(limit, timerName);
+                    widget.addTimer(timer);
+                    Navigator.pop(context);
+                  }
                 }
               },
               child: const Text('Crear timer'),

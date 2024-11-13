@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:timers/timer_display.dart';
 
-import 'add_timer_button.dart';
+import 'new_timer_creation/add_timer_button.dart';
 import 'domain/timer.dart';
 
 class TimersView extends StatefulWidget {
