@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:timers/timer_display.dart';
 
 import 'add_timer_button.dart';
+import 'domain/timer.dart';
 
 class TimersView extends StatefulWidget {
   const TimersView({super.key});
@@ -11,9 +12,9 @@ class TimersView extends StatefulWidget {
 }
 
 class _TimersViewState extends State<TimersView> {
-  Map unTimer = { 'limit': 10 };
-  Map otroTimer = {'limit': 15};
-  List<Map> timers = [];
+  Timer unTimer = Timer(10, 'Timer 1');
+  Timer otroTimer = Timer(15, 'Timer 2');
+  List<Timer> timers = [];
 
   @override
   void initState() {
@@ -40,7 +41,7 @@ class _TimersViewState extends State<TimersView> {
               for (var timer in timers)
                 Container(
                   alignment: Alignment.topCenter,
-                  child: TimerDisplay(limit: timer['limit']),
+                  child: TimerDisplay(limit: timer.limit),
                 )
             ],
           ),

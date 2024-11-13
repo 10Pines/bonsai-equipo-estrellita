@@ -60,7 +60,7 @@ class _TimerDisplayState extends State<TimerDisplay>
         ),
         Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Container(
+          child: SizedBox(
             width: 150,
             height: 150,
             child: Column(

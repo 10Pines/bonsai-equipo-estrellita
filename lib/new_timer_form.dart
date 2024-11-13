@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'domain/timer.dart';
+
 class NewTimerForm extends StatefulWidget {
   final Function addTimer;
 
@@ -44,7 +46,7 @@ class NewTimerFormState extends State<NewTimerForm> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Nuevo timer agregado')),
                   );
-                  const timer = { 'limit': 20 };
+                  const Timer timer = Timer(20, 'Timer nuevo');
                   widget.addTimer(timer);
                   Navigator.pop(context);
                 }
