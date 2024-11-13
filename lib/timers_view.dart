@@ -22,12 +22,18 @@ class _TimersViewState extends State<TimersView> {
     timers.add(otroTimer);
   }
 
+  void addTimer(timer) {
+    setState(() {
+      timers.add(timer);
+    });
+  }
+
   @override
   Widget build(BuildContext context){
     return SafeArea(
       child: Column(
         children: [
-          const AddTimerButton(),
+          AddTimerButton(addTimer: addTimer),
           ListView(
             shrinkWrap: true,
             children: [

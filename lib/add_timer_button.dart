@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
+import 'new_timer_form.dart';
+
 class AddTimerButton extends StatelessWidget {
-  const AddTimerButton({super.key});
+  final Function addTimer;
+
+  const AddTimerButton({super.key, required this.addTimer});
 
   @override
   Widget build(BuildContext context) {
@@ -12,20 +16,10 @@ class AddTimerButton extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return Container(
-              height: 200,
+              height: 250,
               color: Colors.amber,
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    const Text('Modal BottomSheet'),
-                    ElevatedButton(
-                      child: const Text('Close BottomSheet'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
+                child: NewTimerForm(addTimer: addTimer,),
               ),
             );
           },
