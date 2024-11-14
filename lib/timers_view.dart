@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:timers/timer_display.dart';
 
 import 'new_timer_creation/add_timer_button.dart';
@@ -31,22 +31,21 @@ class _TimersViewState extends State<TimersView> {
 
   @override
   Widget build(BuildContext context){
-    return SafeArea(
-      child: Column(
-        children: [
-          AddTimerButton(addTimer: addTimer),
-          ListView(
-            shrinkWrap: true,
-            children: [
+    return Scaffold(
+      appBar: AppBar(title: const Text('Timers'),),
+      floatingActionButton: AddTimerButton(addTimer: addTimer),
+      body: SafeArea(
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          children: [
               for (var timer in timers)
                 Container(
                   alignment: Alignment.topCenter,
-                  child: TimerDisplay(limit: timer.limit),
+                  child: TimerDisplay(timer: timer),
                 )
             ],
           ),
-        ],
-      ),
+        ),
     );
   }
 }

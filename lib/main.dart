@@ -10,11 +10,8 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Timers'),),
-        body: const TimersView(),
-      ),
+    return const MaterialApp(
+      home: TimersView()
     );
   }
 }

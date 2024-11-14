@@ -1,9 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:timers/domain/timer.dart';
 
 class TimerDisplay extends StatefulWidget {
-  const TimerDisplay({super.key, required this.limit});
-  final int limit;
+  const TimerDisplay({super.key, required this.timer});
+  final Timer timer;
 
   @override
   State<TimerDisplay> createState() => _TimerDisplayState();
@@ -19,7 +20,7 @@ class _TimerDisplayState extends State<TimerDisplay>
     super.initState();
     controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: widget.limit),
+      duration: Duration(seconds: widget.timer.limit),
     );
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
@@ -50,7 +51,8 @@ class _TimerDisplayState extends State<TimerDisplay>
   }
 
   String timerText() {
-    double duration =  controller.value == 0.0 ? widget.limit - controller.value : widget.limit * controller.value;
+    int limit = widget.timer.limit;
+    double duration =  controller.value == 0.0 ? limit - controller.value : limit * controller.value;
     return (Duration(seconds: duration.toInt()))
         .toString()
         .substring(2, 7);
@@ -60,6 +62,7 @@ class _TimerDisplayState extends State<TimerDisplay>
   Widget build(BuildContext context) {
     return Stack(
       children: [
+        Text(widget.timer.name),
         Positioned.fill(
           child: AnimatedBuilder(
             animation: controller,
