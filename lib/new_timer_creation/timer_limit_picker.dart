@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class TimerLimitPicker extends StatefulWidget {
   final Function setLimit;
@@ -10,7 +11,7 @@ class TimerLimitPicker extends StatefulWidget {
 }
 
 class _TimerLimitPickerState extends State<TimerLimitPicker> {
-  Duration duration = const Duration(minutes: 00, seconds: 00);
+  Duration duration = const Duration(minutes: 00, seconds: 01);
 
   void _showDialog(Widget child) {
     showCupertinoModalPopup<void>(
@@ -36,7 +37,7 @@ class _TimerLimitPickerState extends State<TimerLimitPicker> {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
+    return ElevatedButton(
       // Display a CupertinoTimerPicker with hour/minute mode.
       onPressed: () => _showDialog(
         CupertinoTimerPicker(
