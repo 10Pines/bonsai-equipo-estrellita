@@ -32,7 +32,7 @@ class _TimersViewState extends State<TimersView> {
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      appBar: AppBar(title: const Text('Timers'),),
+      appBar: AppBar(title: Text('Timers', style: Theme.of(context).textTheme.headlineLarge,),),
       floatingActionButton: AddTimerButton(addTimer: addTimer),
       body: SafeArea(
         child: ListView(

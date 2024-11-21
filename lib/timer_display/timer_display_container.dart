@@ -21,7 +21,7 @@ class _TimerDisplayContainerState extends State<TimerDisplayContainer>
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 15.0),
-            child: Text(widget.timer.name),
+            child: Text(widget.timer.name, style: Theme.of(context).textTheme.headlineSmall,),
           ),
           TimerDisplay(timer: widget.timer,),
         ],

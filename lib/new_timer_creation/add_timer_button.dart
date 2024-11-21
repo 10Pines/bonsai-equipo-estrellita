@@ -10,6 +10,10 @@ class AddTimerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.primary),
+        foregroundColor: const MaterialStatePropertyAll<Color>(Colors.white),
+      ),
       child: const Icon(Icons.add),
       onPressed: () {
         showModalBottomSheet<void>(
@@ -17,7 +21,7 @@ class AddTimerButton extends StatelessWidget {
           builder: (BuildContext context) {
             return Container(
               height: 400,
-              color: Colors.amber,
+              color: Theme.of(context).colorScheme.secondary,
               child: Center(
                 child: NewTimerForm(addTimer: addTimer,),
               ),
