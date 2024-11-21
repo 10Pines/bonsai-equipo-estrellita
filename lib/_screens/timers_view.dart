@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:timers/timer_display.dart';
+import 'package:timers/timer_display/timer_display_container.dart';
 
 import '../new_timer_creation/add_timer_button.dart';
 import '../domain/timer.dart';
@@ -41,7 +41,7 @@ class _TimersViewState extends State<TimersView> {
               for (var timer in timers)
                 Container(
                   alignment: Alignment.topCenter,
-                  child: TimerDisplay(timer: timer),
+                  child: TimerDisplayContainer(timer: timer),
                 )
             ],
           ),
