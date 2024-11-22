@@ -10,8 +10,7 @@ class TimerDisplay extends StatefulWidget {
   State<TimerDisplay> createState() => _TimerDisplayState();
 }
 
-class _TimerDisplayState extends State<TimerDisplay>
-    with TickerProviderStateMixin {
+class _TimerDisplayState extends State<TimerDisplay> with TickerProviderStateMixin {
   late AnimationController controller;
   final player = AudioPlayer();
 
@@ -23,8 +22,11 @@ class _TimerDisplayState extends State<TimerDisplay>
       duration: Duration(seconds: widget.timer.limit),
     );
     controller.addStatusListener((status) {
+      if (status == AnimationStatus.dismissed) {
+        play('ending.mp3');
+      }
       if (status == AnimationStatus.completed) {
-        play();
+        play('starting.mp3');
       }
     });
   }
@@ -41,6 +43,10 @@ class _TimerDisplayState extends State<TimerDisplay>
 
   void pauseTimer() {
     controller.stop();
+  }
+
+  void play(String filename) async {
+    await player.play(AssetSource(filename));
   }
 
   @override
@@ -62,7 +68,6 @@ class _TimerDisplayState extends State<TimerDisplay>
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Text(widget.timer.name),
         Positioned.fill(
           child: AnimatedBuilder(
             animation: controller,
@@ -115,9 +120,5 @@ class _TimerDisplayState extends State<TimerDisplay>
         ),
       ],
     );
-  }
-
-  void play() async {
-    await player.play(AssetSource('boop.mp3'));
   }
 }

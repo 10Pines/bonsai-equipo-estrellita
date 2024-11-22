@@ -29,17 +29,30 @@ class NewTimerFormState extends State<NewTimerForm> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            const Text('Nuevo timer'),
+            Text('Nuevo timer', style: Theme.of(context).textTheme.headlineMedium,),
             Padding(
               padding: const EdgeInsets.only(top: 20.0, bottom: 20.0),
               child: TextFormField(
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
+                style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  fillColor: Theme.of(context).colorScheme.onPrimary,
+                  filled: true,
                   hintText: 'Nombre',
+                  hintStyle: TextStyle(color: Theme.of(context).colorScheme.primary)
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter some text';
+                    return 'Por favor ingresa un nombre para tu timer';
                   }
                   return null;
                 },
@@ -50,9 +63,9 @@ class NewTimerFormState extends State<NewTimerForm> {
                 },
               ),
             ),
-            const Text('Selecciona el límite de tu timer:'),
+            Text('Selecciona el límite de tu timer:', style: Theme.of(context).textTheme.labelLarge,),
             if(showLimitWarning)
-              const Text('Elegir un límite distinto de 0'),
+              Text('Elegir un límite distinto de 0', style: Theme.of(context).textTheme.labelMedium,),
             TimerLimitPicker(
               setLimit: (selectedLimit) {
                 setState(() {
@@ -61,24 +74,27 @@ class NewTimerFormState extends State<NewTimerForm> {
                 });
               },
             ),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('Nuevo timer agregado')),
-                  );
-                  if( limit == 0) {
-                    setState(() {
-                      showLimitWarning = true;
-                    });
-                  } else {
-                    Timer timer = Timer(limit, timerName);
-                    widget.addTimer(timer);
-                    Navigator.pop(context);
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Nuevo timer agregado')),
+                    );
+                    if( limit == 0) {
+                      setState(() {
+                        showLimitWarning = true;
+                      });
+                    } else {
+                      Timer timer = Timer(limit, timerName);
+                      widget.addTimer(timer);
+                      Navigator.pop(context);
+                    }
                   }
-                }
-              },
-              child: const Text('Crear timer'),
+                },
+                child: const Text('Crear timer'),
+              ),
             ),
           ],
         ),
