@@ -12,7 +12,7 @@ class TimersView extends StatefulWidget {
 }
 
 class _TimersViewState extends State<TimersView> {
-  Timer unTimer = Timer(10, 'Timer 1');
+  Timer unTimer = Timer(5, 'Timer 1');
   Timer otroTimer = Timer(15, 'Timer 2');
   List<Timer> timers = [];
 

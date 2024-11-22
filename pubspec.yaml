@@ -20,6 +20,8 @@ flutter:
   uses-material-design: true
   assets:
     - assets/boop.mp3
+    - assets/ending.mp3
+    - assets/starting.mp3
   fonts:
     - family: Cousine
       fonts:

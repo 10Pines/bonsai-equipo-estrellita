@@ -11,8 +11,8 @@ class AddTimerButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStatePropertyAll<Color>(Theme.of(context).colorScheme.primary),
-        foregroundColor: const MaterialStatePropertyAll<Color>(Colors.white),
+        backgroundColor: WidgetStatePropertyAll<Color>(Theme.of(context).colorScheme.primary),
+        foregroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
       ),
       child: const Icon(Icons.add),
       onPressed: () {

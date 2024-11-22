@@ -22,8 +22,11 @@ class _TimerDisplayState extends State<TimerDisplay> with TickerProviderStateMix
       duration: Duration(seconds: widget.timer.limit),
     );
     controller.addStatusListener((status) {
+      if (status == AnimationStatus.dismissed) {
+        play('ending.mp3');
+      }
       if (status == AnimationStatus.completed) {
-        play(); //esto es lo del ruidito
+        play('starting.mp3');
       }
     });
   }
@@ -42,8 +45,8 @@ class _TimerDisplayState extends State<TimerDisplay> with TickerProviderStateMix
     controller.stop();
   }
 
-  void play() async {
-    await player.play(AssetSource('boop.mp3'));
+  void play(String filename) async {
+    await player.play(AssetSource(filename));
   }
 
   @override
